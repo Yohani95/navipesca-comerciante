@@ -1,0 +1,176 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Cliente {
+  id                String   @id @default(cuid())
+  nombre            String
+  email             String   @unique
+  telefono          String?
+  direccion         String?
+  fechaRegistro     DateTime @default(now())
+  fechaVencimiento  DateTime // Fecha de vencimiento de la prueba/suscripción
+  estadoSuscripcion String   @default("prueba") // prueba, activo, suspendido, cancelado
+  tarifaPorKilo     Decimal  @default(1.00) // Precio por kilo en CLP
+  activo            Boolean  @default(true)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  // Relaciones
+  usuarios      Usuario[]
+  embarcaciones Embarcacion[]
+  bins          Bin[]
+  pesajes       Pesaje[]
+  pagos         Pago[]
+  cobrosMensual CobroMensual[]
+
+  @@map("clientes")
+}
+
+model Usuario {
+  id        String    @id @default(cuid())
+  email     String    @unique
+  nombre    String
+  apellido  String
+  rol       String    // comprador, pesador
+  clienteId String
+  activo    Boolean   @default(true)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  lastLogin DateTime?
+
+  // Relaciones
+  cliente           Cliente @relation(fields: [clienteId], references: [id], onDelete: Cascade)
+  pesajesRegistrados Pesaje[]
+
+  // Indices
+  @@index([clienteId])
+  @@map("usuarios")
+}
+
+model Embarcacion {
+  id             String   @id @default(cuid())
+  nombre         String
+  matricula      String   @unique
+  propietario    String
+  telefono       String?
+  observaciones  String?
+  clienteId      String
+  activa         Boolean  @default(true)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  // Relaciones
+  cliente Cliente  @relation(fields: [clienteId], references: [id], onDelete: Cascade)
+  pesajes Pesaje[]
+
+  // Indices
+  @@index([clienteId])
+  @@index([matricula])
+  @@map("embarcaciones")
+}
+
+model Bin {
+  id            String   @id @default(cuid())
+  codigo        String   // Código único del bin
+  tara          Decimal  // Peso del contenedor vacío
+  capacidad     Decimal? // Capacidad máxima en kg
+  clienteId     String
+  activo        Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // Relaciones
+  cliente Cliente  @relation(fields: [clienteId], references: [id], onDelete: Cascade)
+  pesajes Pesaje[]
+
+  // Indices
+  @@unique([codigo, clienteId])
+  @@index([clienteId])
+  @@map("bins")
+}
+
+model Pesaje {
+  id             String   @id @default(cuid())
+  embarcacionId  String
+  binId          String
+  usuarioId      String   // Quien registró el pesaje
+  clienteId      String
+  pesoBruto      Decimal  // Peso total (bin + producto)
+  pesoNeto       Decimal  // Peso del producto (pesoBruto - tara)
+  fecha          DateTime @default(now())
+  observaciones  String?
+  estado         String   @default("pendiente") // pendiente, sincronizado, error
+  sincronizado   Boolean  @default(false)
+  fechaSinc      DateTime?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  // Relaciones
+  cliente     Cliente     @relation(fields: [clienteId], references: [id], onDelete: Cascade)
+  embarcacion Embarcacion @relation(fields: [embarcacionId], references: [id], onDelete: Cascade)
+  bin         Bin         @relation(fields: [binId], references: [id], onDelete: Cascade)
+  usuario     Usuario     @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+
+  // Indices
+  @@index([clienteId])
+  @@index([embarcacionId])
+  @@index([fecha])
+  @@index([estado])
+  @@map("pesajes")
+}
+
+model Pago {
+  id            String   @id @default(cuid())
+  clienteId     String
+  monto         Decimal
+  fecha         DateTime @default(now())
+  concepto      String   // Descripción del pago
+  metodoPago    String?  // efectivo, transferencia, cheque
+  referencia    String?  // Número de transferencia, cheque, etc.
+  observaciones String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // Relaciones
+  cliente Cliente @relation(fields: [clienteId], references: [id], onDelete: Cascade)
+
+  // Indices
+  @@index([clienteId])
+  @@index([fecha])
+  @@map("pagos")
+}
+
+model CobroMensual {
+  id             String   @id @default(cuid())
+  clienteId      String
+  año            Int
+  mes            Int
+  totalKilos     Decimal  @default(0)
+  precioPorKilo  Decimal
+  montoTotal     Decimal
+  estado         String   @default("pendiente") // pendiente, pagado, vencido
+  fechaGenerado  DateTime @default(now())
+  fechaVencimiento DateTime
+  fechaPago      DateTime?
+  observaciones  String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  // Relaciones
+  cliente Cliente @relation(fields: [clienteId], references: [id], onDelete: Cascade)
+
+  // Indices
+  @@unique([clienteId, año, mes])
+  @@index([clienteId])
+  @@index([estado])
+  @@map("cobros_mensuales")
+}
