@@ -1,23 +1,25 @@
-import { createClientComponentClient, createServerComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { createClient } from '@supabase/supabase-js'
-import { cookies } from 'next/headers'
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+// Supabase configuration - verificar que las variables estén definidas
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 
-// Client-side Supabase instance
-export const supabase = createClientComponentClient()
-
-// Server-side Supabase instance
-export const createServerSupabaseClient = () => {
-  const cookieStore = cookies()
-  return createServerComponentClient({ cookies: () => cookieStore })
+// Verificar que las variables de entorno estén configuradas
+if (!supabaseUrl || !supabaseAnonKey) {
+  throw new Error('Missing Supabase environment variables. Please check your .env.local file.')
 }
+
+// Client-side Supabase instance con configuración mejorada
+export const supabase = createClientComponentClient({
+  supabaseUrl,
+  supabaseKey: supabaseAnonKey
+})
 
 // Service role client for admin operations
 export const supabaseAdmin = createClient(
   supabaseUrl,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!,
+  supabaseAnonKey,
   {
     auth: {
       autoRefreshToken: false,

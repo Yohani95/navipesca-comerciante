@@ -63,6 +63,10 @@
   background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
 }
 
+.gradient-navy-light {
+  background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+}
+
 .gradient-aqua {
   background: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%);
 }
@@ -115,5 +119,61 @@
   
   .mobile-text {
     font-size: 0.875rem;
+  }
+  
+  .header-responsive {
+    padding: 1rem !important;
+  }
+  
+  .header-title {
+    font-size: 1.25rem !important;
+  }
+  
+  .header-subtitle {
+    font-size: 0.875rem !important;
+  }
+  
+  .header-company {
+    font-size: 0.75rem !important;
+  }
+  
+  .header-actions {
+    gap: 0.5rem !important;
+  }
+  
+  .header-user-info {
+    display: none !important;
+  }
+}
+
+/* Extra small screens */
+@media (max-width: 480px) {
+  .header-responsive {
+    padding: 0.75rem !important;
+  }
+  
+  .header-title {
+    font-size: 1.125rem !important;
+  }
+  
+  .header-subtitle {
+    font-size: 0.75rem !important;
+  }
+  
+  .header-company {
+    font-size: 0.625rem !important;
+  }
+  
+  .header-actions {
+    gap: 0.25rem !important;
+  }
+  
+  .header-actions button {
+    padding: 0.5rem !important;
+  }
+  
+  .header-actions button svg {
+    width: 1rem !important;
+    height: 1rem !important;
   }
 }

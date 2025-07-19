@@ -142,39 +142,25 @@ export default function CompradorDashboard() {
   ]
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Header */}
-      <div className="gradient-navy text-white p-6">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex items-center justify-between mb-4">
-            <div>
-              <h1 className="text-2xl font-bold">🐟 NaviPesca Comerciante</h1>
-              <p className="text-navy-200">Dashboard del Comprador</p>
-            </div>
-            <div className="text-right">
-              <p className="text-sm text-navy-200">Bienvenido,</p>
-              <p className="font-semibold">{user?.email}</p>
-            </div>
-          </div>
-
-          {/* Trial Warning */}
-          {trialInfo.subscription === 'prueba' && (
-            <div className="bg-warning-500/20 border border-warning-500/30 rounded-lg p-4 mb-4">
-              <div className="flex items-center gap-2">
-                <AlertTriangle className="h-5 w-5 text-warning-300" />
-                <div>
-                  <p className="font-medium text-warning-100">
-                    Período de Prueba - {trialInfo.daysLeft} días restantes
-                  </p>
-                  <p className="text-sm text-warning-200">
-                    Tu suscripción vence el {formatDate(new Date(Date.now() + trialInfo.daysLeft * 24 * 60 * 60 * 1000))}
-                  </p>
-                </div>
+    <>
+      {/* Trial Warning */}
+      {trialInfo.subscription === 'prueba' && (
+        <div className="max-w-7xl mx-auto px-6 pt-6">
+          <div className="bg-warning-500/20 dark:bg-warning-500/20 border border-warning-500/30 dark:border-warning-500/30 rounded-lg p-4 mb-6">
+            <div className="flex items-center gap-2">
+              <AlertTriangle className="h-5 w-5 text-warning-600 dark:text-warning-300" />
+              <div>
+                <p className="font-medium text-warning-800 dark:text-warning-100">
+                  Período de Prueba - {trialInfo.daysLeft} días restantes
+                </p>
+                <p className="text-sm text-warning-700 dark:text-warning-200">
+                  Tu suscripción vence el {formatDate(new Date(Date.now() + trialInfo.daysLeft * 24 * 60 * 60 * 1000))}
+                </p>
               </div>
             </div>
-          )}
+          </div>
         </div>
-      </div>
+      )}
 
       <div className="max-w-7xl mx-auto p-6">
         {/* Stats Grid */}
@@ -264,7 +250,7 @@ export default function CompradorDashboard() {
               </div>
               <Button variant="outline" className="w-full mt-4" asChild>
                 <Link href="/dashboard/comprador/pesajes">
-                  Ver todos los pesajes
+                  <span>Ver todos los pesajes</span>
                 </Link>
               </Button>
             </CardContent>
@@ -304,6 +290,6 @@ export default function CompradorDashboard() {
           </Card>
         </div>
       </div>
-    </div>
+    </>
   )
 }

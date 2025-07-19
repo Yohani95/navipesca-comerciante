@@ -15,7 +15,7 @@ import {
   Wifi,
   WifiOff,
   Plus,
-  Sync,
+  RefreshCw,
   List
 } from 'lucide-react'
 import Link from 'next/link'
@@ -209,50 +209,7 @@ export default function PesadorDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Header */}
-      <div className="gradient-navy text-white p-6">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex items-center justify-between mb-4">
-            <div>
-              <h1 className="text-2xl font-bold">🐟 NaviPesca Comerciante</h1>
-              <p className="text-navy-200">Dashboard del Pesador</p>
-            </div>
-            <div className="text-right">
-              <p className="text-sm text-navy-200">Trabajando como,</p>
-              <p className="font-semibold">{user?.email}</p>
-            </div>
-          </div>
-
-          {/* Connection Status */}
-          <div className={`rounded-lg p-4 mb-4 ${
-            isOnline 
-              ? 'bg-aqua-500/20 border border-aqua-500/30' 
-              : 'bg-destructive/20 border border-destructive/30'
-          }`}>
-            <div className="flex items-center gap-2">
-              {isOnline ? (
-                <Wifi className="h-5 w-5 text-aqua-300" />
-              ) : (
-                <WifiOff className="h-5 w-5 text-red-300" />
-              )}
-              <div>
-                <p className="font-medium text-white">
-                  {isOnline ? 'Conectado a Internet' : 'Modo Offline'}
-                </p>
-                <p className="text-sm text-gray-200">
-                  {isOnline 
-                    ? 'Los datos se sincronizan automáticamente'
-                    : 'Los datos se guardarán localmente hasta recuperar conexión'
-                  }
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="max-w-7xl mx-auto p-6">
+    <div className="max-w-7xl mx-auto p-6">
         {/* Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           {statCards.map((stat, index) => (
@@ -293,7 +250,7 @@ export default function PesadorDashboard() {
             loading={syncing}
           >
             <div className="flex flex-col items-center gap-2">
-              <Sync className="h-8 w-8" />
+              <RefreshCw className="h-8 w-8" />
               <span className="text-lg font-semibold">
                 {syncing ? 'Sincronizando...' : 'Sincronizar'}
               </span>
@@ -377,6 +334,5 @@ export default function PesadorDashboard() {
           </CardContent>
         </Card>
       </div>
-    </div>
   )
 }

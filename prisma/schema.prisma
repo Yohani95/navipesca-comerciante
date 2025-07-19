@@ -19,7 +19,7 @@ model Cliente {
   fechaRegistro     DateTime @default(now())
   fechaVencimiento  DateTime // Fecha de vencimiento de la prueba/suscripción
   estadoSuscripcion String   @default("prueba") // prueba, activo, suspendido, cancelado
-  tarifaPorKilo     Decimal  @default(1.00) // Precio por kilo en CLP
+  tarifaPorKilo     Decimal  @default(1) // Precio por kilo en CLP
   activo            Boolean  @default(true)
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt

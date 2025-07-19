@@ -5,23 +5,37 @@ const config: CapacitorConfig = {
   appName: 'NaviPesca Comerciante',
   webDir: 'out',
   server: {
-    androidScheme: 'https'
+    androidScheme: 'https',
+    cleartext: true
   },
   plugins: {
     SplashScreen: {
-      launchShowDuration: 2000,
+      launchShowDuration: 3000,
       backgroundColor: '#0f172a',
-      showSpinner: false,
-      spinnerColor: '#14b8a6'
+      showSpinner: true,
+      spinnerColor: '#14b8a6',
+      splashFullScreen: true,
+      splashImmersive: true
     },
     StatusBar: {
       style: 'dark',
-      backgroundColor: '#0f172a'
+      backgroundColor: '#0f172a',
+      overlaysWebView: false
     },
     Keyboard: {
       resize: 'body',
-      style: 'dark'
+      style: 'dark',
+      accessoryBarVisible: false
+    },
+    App: {
+      url: 'https://navipesca.comerciante.app'
     }
+  },
+  ios: {
+    contentInset: 'automatic'
+  },
+  android: {
+    allowMixedContent: true
   }
 }
 

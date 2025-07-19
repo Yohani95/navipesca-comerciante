@@ -93,23 +93,27 @@ navipesca-comerciante/
    - Integración Google OAuth (configurado)
    - Validación de formularios
    - Manejo de errores
+   - **Actualización de perfil funcional** con Supabase
 
 2. **Dashboards Diferenciados**
    - Comprador: Gestión comercial y supervisión
    - Pesador: Operativo diario con móvil-first
-   - Admin: Preparado para métricas globales
+   - **Layout compartido optimizado** sin recargas de header
+   - **Navegación rápida** desde título principal
 
 3. **Tema Visual Profesional**
    - Colores NaviPesca coherentes
    - Modo oscuro obligatorio
    - Responsive design
    - Componentes reutilizables
+   - **Página 404 mejorada** con diseño NaviPesca
 
 4. **Arquitectura Escalable**
    - TypeScript en todo el proyecto
    - Separación clara de responsabilidades
    - Hooks customizados
    - Estado global preparado
+   - **Layout optimizado** para navegación fluida
 
 ### 🚧 Por Implementar (Próximas Iteraciones)
 
@@ -175,14 +179,14 @@ navipesca-comerciante/
 
 ## 📊 Métricas de Desarrollo
 
-### Cobertura Actual: ~40%
+### Cobertura Actual: ~50%
 - ✅ **Fundación (100%)**: Estructura, configs, deps
-- ✅ **UI/UX (80%)**: Diseño, componentes, tema
-- ✅ **Auth (90%)**: Login, registro, providers
-- ✅ **Dashboards (70%)**: Layout, métricas mock
-- 🚧 **Funcionalidad (10%)**: Solo estructura base
-- 🚧 **Mobile (30%)**: Config lista, sin testing
-- ⏳ **Backend (5%)**: Solo esquema DB
+- ✅ **UI/UX (90%)**: Diseño, componentes, tema, 404 mejorada
+- ✅ **Auth (95%)**: Login, registro, providers, perfil funcional
+- ✅ **Dashboards (85%)**: Layout optimizado, navegación fluida
+- 🚧 **Funcionalidad (15%)**: Estructura base + perfil actualizado
+- 🚧 **Mobile (40%)**: Config lista, layout optimizado
+- ⏳ **Backend (10%)**: Esquema DB + políticas RLS básicas
 
 ### Tiempo Estimado para MVP Completo
 - **2-3 semanas**: Funcionalidades core (pesajes, embarcaciones)
@@ -207,6 +211,6 @@ navipesca-comerciante/
 
 ---
 
-**Estado Actual**: Fundación sólida implementada ✅  
+**Estado Actual**: Fundación sólida + navegación optimizada ✅  
 **Próximo Milestone**: Sistema de pesajes funcional 🎯  
-**Meta**: MVP completo en 4-5 semanas 🚀
+**Meta**: MVP completo en 3-4 semanas 🚀

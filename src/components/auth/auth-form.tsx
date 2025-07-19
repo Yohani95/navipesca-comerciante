@@ -239,7 +239,7 @@ export function AuthForm() {
             loading={loading}
             disabled={loading}
           >
-            {isLogin ? 'Iniciar Sesión' : 'Crear Cuenta'}
+            <span>{isLogin ? 'Iniciar Sesión' : 'Crear Cuenta'}</span>
           </Button>
         </form>
 

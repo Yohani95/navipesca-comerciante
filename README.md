@@ -86,6 +86,46 @@ npx cap add ios
 
 # Abrir en Xcode
 npx cap open ios
+
+## 📱 PWA y Capacitor
+
+### PWA (Progressive Web App)
+```bash
+# Generar iconos (placeholders)
+npm run icons:generate
+
+# Construir para PWA
+npm run pwa:build
+
+# Servir PWA localmente
+npm run pwa:serve
+```
+
+### Capacitor (App Nativa)
+```bash
+# Construir y sincronizar
+npm run mobile:build
+
+# Ejecutar en iOS
+npm run mobile:ios
+
+# Ejecutar en Android
+npm run mobile:android
+```
+
+### Generar Iconos Reales
+1. Crea un icono de 512x512 con el logo de NaviPesca
+2. Usa herramientas como:
+   - https://realfavicongenerator.net/
+   - https://www.pwabuilder.com/imageGenerator
+   - https://favicon.io/
+3. Reemplaza los archivos en `/public/`
+
+### Configuración PWA
+- **Manifest**: `/public/manifest.json`
+- **Service Worker**: `/public/sw.js`
+- **Iconos**: `/public/icon-*.png`
+- **Screenshots**: `/public/screenshot-*.png`
 ```
 
 ## 🗃️ Estructura de la Base de Datos
