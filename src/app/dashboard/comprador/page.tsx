@@ -136,7 +136,7 @@ export default function CompradorDashboard() {
       title: "Configuración",
       description: "Ajustes de cuenta y sistema",
       icon: Settings,
-      href: "/dashboard/comprador/configuracion",
+      href: "/dashboard/configuracion",
       variant: "outline" as const
     }
   ]

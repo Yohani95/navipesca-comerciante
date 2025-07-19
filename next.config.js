@@ -12,8 +12,9 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
-  output: 'export',
-  distDir: 'out',
+  // Removido output: 'export' para permitir Server Actions
+  // output: 'export',
+  // distDir: 'out',
 }
 
 module.exports = nextConfig
