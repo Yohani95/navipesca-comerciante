@@ -19,7 +19,11 @@ import {
   Download,
   Upload,
   Trash2,
-  AlertTriangle
+  AlertTriangle,
+  MessageCircle,
+  Phone,
+  Mail,
+  User
 } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { toast } from 'react-hot-toast'
@@ -29,6 +33,8 @@ export default function ConfiguracionPage() {
   const { theme, toggleTheme, mounted } = useThemeToggle()
   const router = useRouter()
   const [loading, setLoading] = useState(false)
+  const [notificationsEnabled, setNotificationsEnabled] = useState(false)
+  const [notificationLoading, setNotificationLoading] = useState(false)
 
   const handleSignOut = async () => {
     try {
@@ -64,6 +70,33 @@ export default function ConfiguracionPage() {
     } finally {
       setLoading(false)
     }
+  }
+
+  const handleNotificationToggle = async () => {
+    setNotificationLoading(true)
+    try {
+      if (!notificationsEnabled) {
+        // Solicitar permisos de notificación
+        const permission = await Notification.requestPermission()
+        if (permission === 'granted') {
+          setNotificationsEnabled(true)
+          toast.success('Notificaciones activadas')
+        } else {
+          toast.error('Permisos de notificación denegados')
+        }
+      } else {
+        setNotificationsEnabled(false)
+        toast.success('Notificaciones desactivadas')
+      }
+    } catch (error) {
+      toast.error('Error al configurar notificaciones')
+    } finally {
+      setNotificationLoading(false)
+    }
+  }
+
+  const handleFeatureNotImplemented = (featureName: string) => {
+    toast.error(`${featureName} estará disponible próximamente`)
   }
 
   return (
@@ -143,8 +176,19 @@ export default function ConfiguracionPage() {
                     Recibe notificaciones en tiempo real
                   </p>
                 </div>
-                <Button variant="outline" size="sm">
-                  Configurar
+                <Button 
+                  variant={notificationsEnabled ? "default" : "outline"} 
+                  size="sm"
+                  onClick={handleNotificationToggle}
+                  disabled={notificationLoading}
+                >
+                  {notificationLoading ? (
+                    <LoadingSpinner size="sm" />
+                  ) : notificationsEnabled ? (
+                    'Activadas'
+                  ) : (
+                    'Activar'
+                  )}
                 </Button>
               </div>
             </CardContent>
@@ -250,6 +294,15 @@ export default function ConfiguracionPage() {
                   <AlertTriangle className="h-4 w-4 mr-2" />
                   Configuración de Seguridad
                 </Button>
+                
+                <Button
+                  variant="outline"
+                  onClick={() => router.push('/dashboard/configuracion/sesiones')}
+                  className="w-full justify-start"
+                >
+                  <User className="h-4 w-4 mr-2" />
+                  Sesiones Activas
+                </Button>
               </div>
             </CardContent>
           </Card>
@@ -284,6 +337,82 @@ export default function ConfiguracionPage() {
                   <Smartphone className="h-4 w-4 mr-2" />
                   Modo Offline
                 </Button>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Información de Contacto */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <MessageCircle className="h-5 w-5" />
+                Información de Contacto
+              </CardTitle>
+              <CardDescription>
+                Datos de contacto para soporte técnico
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="space-y-3">
+                <div className="flex items-center justify-between p-3 border rounded-lg">
+                  <div className="flex items-center gap-3">
+                    <MessageCircle className="h-5 w-5 text-aqua-600" />
+                    <div>
+                      <p className="font-medium">WhatsApp</p>
+                      <p className="text-sm text-muted-foreground">+56 9 6520 8072</p>
+                    </div>
+                  </div>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => window.open('https://wa.me/56965208072', '_blank')}
+                  >
+                    Contactar
+                  </Button>
+                </div>
+
+                <div className="flex items-center justify-between p-3 border rounded-lg">
+                  <div className="flex items-center gap-3">
+                    <Phone className="h-5 w-5 text-aqua-600" />
+                    <div>
+                      <p className="font-medium">Teléfono</p>
+                      <p className="text-sm text-muted-foreground">+56 9 6520 8072</p>
+                    </div>
+                  </div>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => window.open('tel:+56965208072', '_blank')}
+                  >
+                    Llamar
+                  </Button>
+                </div>
+
+                <div className="flex items-center justify-between p-3 border rounded-lg">
+                  <div className="flex items-center gap-3">
+                    <Mail className="h-5 w-5 text-aqua-600" />
+                    <div>
+                      <p className="font-medium">Email</p>
+                      <p className="text-sm text-muted-foreground">soporte@navipesca.cl</p>
+                    </div>
+                  </div>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => window.open('mailto:soporte@navipesca.cl', '_blank')}
+                  >
+                    Enviar
+                  </Button>
+                </div>
+
+                <div className="mt-4 p-3 bg-muted rounded-lg">
+                  <p className="text-sm font-medium mb-1">Horarios de Atención</p>
+                  <p className="text-xs text-muted-foreground">
+                    Lunes a Viernes: 8:00 - 18:00<br />
+                    Sábados: 9:00 - 14:00<br />
+                    Emergencias: Disponible 24/7
+                  </p>
+                </div>
               </div>
             </CardContent>
           </Card>

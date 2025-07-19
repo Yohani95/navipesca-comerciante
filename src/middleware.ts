@@ -1,66 +1,54 @@
-import { createServerClient } from '@supabase/ssr'
-import { NextResponse, type NextRequest } from 'next/server'
+import { createMiddlewareClient } from '@supabase/auth-helpers-nextjs'
+import { NextResponse } from 'next/server'
+import type { NextRequest } from 'next/server'
 
-export async function middleware(request: NextRequest) {
-  let supabaseResponse = NextResponse.next({
-    request,
-  })
+export async function middleware(req: NextRequest) {
+  const res = NextResponse.next()
+  const supabase = createMiddlewareClient({ req, res })
 
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        getAll() {
-          return request.cookies.getAll()
-        },
-        setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value, options }) => request.cookies.set(name, value))
-          supabaseResponse = NextResponse.next({
-            request,
-          })
-          cookiesToSet.forEach(({ name, value, options }) =>
-            supabaseResponse.cookies.set(name, value, options)
-          )
-        },
-      },
-    }
+  // Obtener la sesión actual
+  const {
+    data: { session },
+  } = await supabase.auth.getSession()
+
+  // Rutas que requieren autenticación
+  const protectedRoutes = [
+    '/dashboard',
+    '/perfil',
+    '/configuracion',
+    '/ayuda'
+  ]
+
+  // Verificar si la ruta actual requiere autenticación
+  const isProtectedRoute = protectedRoutes.some(route => 
+    req.nextUrl.pathname.startsWith(route)
   )
 
-  // IMPORTANT: Avoid writing any logic between createServerClient and
-  // supabase.auth.getUser(). A simple mistake could make it very hard to debug
-  // issues with users being randomly logged out.
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
-
-  // If there's no user and the user is trying to access a protected route,
-  // redirect them to the login page
-  if (!user && request.nextUrl.pathname.startsWith('/dashboard')) {
-    const redirectUrl = new URL('/', request.url)
+  // Si es una ruta protegida y no hay sesión, redirigir al login
+  if (isProtectedRoute && !session) {
+    const redirectUrl = new URL('/', req.url)
     return NextResponse.redirect(redirectUrl)
   }
 
-  // If there's a user and they're trying to access the login page,
-  // redirect them to the dashboard
-  if (user && request.nextUrl.pathname === '/') {
-    const redirectUrl = new URL('/dashboard', request.url)
+  // Si hay sesión y está en la página de login, redirigir al dashboard
+  if (session && req.nextUrl.pathname === '/') {
+    const redirectUrl = new URL('/dashboard', req.url)
     return NextResponse.redirect(redirectUrl)
   }
 
-  return supabaseResponse
+  return res
 }
 
 export const config = {
   matcher: [
     /*
      * Match all request paths except for the ones starting with:
+     * - api (API routes)
      * - _next/static (static files)
      * - _next/image (image optimization files)
      * - favicon.ico (favicon file)
-     * Feel free to modify this pattern to include more paths.
+     * - public folder
      */
-    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
+    '/((?!api|_next/static|_next/image|favicon.ico|public).*)',
   ],
 } 

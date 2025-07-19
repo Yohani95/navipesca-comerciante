@@ -58,7 +58,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         {loading ? (
           <div className="flex items-center">
             <LoadingSpinner size="sm" className="mr-2" />
-            {children}
+        {children}
           </div>
         ) : (
           children

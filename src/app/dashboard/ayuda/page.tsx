@@ -57,16 +57,16 @@ export default function AyudaPage() {
     {
       icon: Phone,
       title: "Teléfono",
-      description: "+56 9 1234 5678",
+      description: "+56 9 6520 8072",
       action: "Llamar",
-      href: "tel:+56912345678"
+      href: "tel:+56965208072"
     },
     {
       icon: MessageCircle,
       title: "WhatsApp",
       description: "Soporte en tiempo real",
       action: "Abrir WhatsApp",
-      href: "https://wa.me/56912345678"
+      href: "https://wa.me/56965208072"
     }
   ]
 
@@ -75,7 +75,7 @@ export default function AyudaPage() {
       icon: FileText,
       title: "Manual de Usuario",
       description: "Guía completa de todas las funciones",
-      href: "/manual-usuario.pdf"
+      href: "/dashboard/ayuda/manual"
     },
     {
       icon: Video,
@@ -246,7 +246,7 @@ export default function AyudaPage() {
                         <Button
                           variant="outline"
                           size="sm"
-                          onClick={() => window.open(resource.href, '_blank')}
+                          onClick={() => router.push(resource.href)}
                           className="w-full"
                         >
                           <ExternalLink className="h-4 w-4 mr-2" />

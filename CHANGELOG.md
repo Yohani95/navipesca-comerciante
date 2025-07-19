@@ -2,52 +2,137 @@
 
 Todos los cambios notables en este proyecto serán documentados en este archivo.
 
-## [0.2.0] - 2024-12-19
+## [0.3.0] - 2024-12-19
 
-### 🚀 Nuevas Funcionalidades
-- **Navegación optimizada**: Layout compartido del dashboard sin recargas de header
-- **Título clickeable**: Navegación rápida al dashboard principal desde el header
-- **Página 404 mejorada**: Diseño NaviPesca con navegación inteligente
-- **Actualización de perfil funcional**: Integración completa con Supabase Auth y RLS
-- **Corrección de redirección**: Botón "Ayuda y Soporte" ahora funciona correctamente
+### ✨ Añadido
+- **Página de Dispositivos Conectados** (`/dashboard/configuracion/dispositivos`)
+  - Lista detallada de dispositivos con información de navegador, OS y ubicación
+  - Estados online/offline en tiempo real
+  - Funcionalidad para remover dispositivos
+  - Estadísticas de dispositivos (total, online, offline)
+  - Información de seguridad de dispositivos
 
-### 🔧 Mejoras Técnicas
-- **Layout compartido**: `src/app/dashboard/layout.tsx` con header persistente
-- **Navegación inteligente**: Título principal detecta rol y navega al dashboard correcto
-- **Políticas RLS**: Configuración de permisos para actualización de perfiles
-- **Limpieza de código**: Eliminación de logs y componentes de diagnóstico
-- **Gitignore mejorado**: Exclusiones completas para Next.js y archivos temporales
+- **Página de Privacidad y Seguridad** (`/dashboard/configuracion/privacidad`)
+  - Configuración completa de privacidad (visibilidad, datos, analytics, marketing, ubicación)
+  - Gestión de datos personales y descarga de datos
+  - Eliminación de cuenta con confirmación
+  - Información legal y políticas
 
-### 🐛 Correcciones
-- **Headers duplicados**: Eliminados de páginas individuales del dashboard
-- **Sintaxis JSX**: Corregidos errores de estructura en páginas
-- **Redirección ayuda**: Corregida ruta de `/dashboard/configuracion/ayuda` a `/dashboard/ayuda`
-- **Estructura de archivos**: Optimizada para evitar recargas innecesarias
+- **Página de Seguridad** (`/dashboard/configuracion/seguridad`)
+  - Cambio de contraseña con validación y indicador de fortaleza
+  - Autenticación de dos factores (simulada)
+  - Actividad reciente de accesos
+  - Consejos de seguridad
 
-### 📱 Experiencia de Usuario
-- **Navegación fluida**: Sin recargas al cambiar entre páginas del dashboard
-- **Feedback visual**: Icono de casa en hover del título principal
-- **Página 404 elegante**: Diseño consistente con tema NaviPesca
-- **Tooltips informativos**: Indicaciones claras de funcionalidad
+- **Página de Configuración de Red** (`/dashboard/configuracion/red`)
+  - Estado de conexión en tiempo real con métricas
+  - Configuración de sincronización avanzada
+  - Optimización de red y solución de problemas
+  - Información de conectividad
 
-### 🔒 Seguridad
-- **Políticas RLS**: Configuradas para `clientes` y `usuarios`
-- **Validación mejorada**: Zod schemas para formularios de perfil
-- **Manejo de errores**: Mejor feedback en actualizaciones de perfil
+- **Página de Modo Offline** (`/dashboard/configuracion/offline`)
+  - Gestión completa de datos offline
+  - Sincronización inteligente con progreso
+  - Estado de conexión y trabajos de sincronización
+  - Configuración de almacenamiento offline
 
-### 📦 Dependencias
-- **Versión actualizada**: De 0.1.0 a 0.2.0
-- **Documentación actualizada**: IMPLEMENTATION_SUMMARY.md y ARCHITECTURE.md
-- **Gitignore completo**: Exclusiones estándar para proyectos Next.js
+- **Página de Sincronización** (`/dashboard/configuracion/sincronizacion`)
+  - Configuración avanzada de sincronización
+  - Trabajos de sincronización en tiempo real
+  - Configuración de compresión y encriptación
+  - Gestión de intentos y reintentos
+
+- **Página de Sesiones Activas** (`/dashboard/configuracion/sesiones`)
+  - Gestión completa de sesiones activas
+  - Información detallada de dispositivos y ubicaciones
+  - Terminar sesiones individuales o todas
+  - Seguridad de sesiones con dispositivos confiables
+
+- **Mejoras en la página principal de Configuración**
+  - Notificaciones push funcionales con permisos del navegador
+  - Navegación completa a todas las páginas de configuración
+  - Gestión de características no implementadas con toast informativos
+
+### 🔧 Mejorado
+- **Navegación del dashboard**: Título principal clickeable para navegar al dashboard principal
+- **Manual de usuario**: Página completa de manual con secciones detalladas
+- **Contacto**: Información de contacto actualizada y centralizada
+- **Modo oscuro**: Mejoras en contraste y legibilidad
+- **UX/UI**: Mejoras generales en la experiencia de usuario
+
+### 🐛 Corregido
+- **JSX syntax errors**: Corregidos errores de sintaxis en páginas del dashboard
+- **Headers duplicados**: Eliminados headers duplicados en páginas de configuración y ayuda
+- **Navegación**: Optimizada navegación para evitar recargas innecesarias
+- **Gitignore**: Mejorado para excluir archivos innecesarios
+
+### 📝 Documentación
+- **CHANGELOG.md**: Documentación completa de cambios
+- **IMPLEMENTATION_SUMMARY.md**: Actualizado con nuevas funcionalidades
+- **ARCHITECTURE.md**: Actualizada arquitectura del proyecto
+
+## [0.2.0] - 2024-12-18
+
+### ✨ Añadido
+- **Página de Ayuda y Soporte** (`/dashboard/ayuda`)
+  - Manual de usuario completo con secciones detalladas
+  - Información de contacto actualizada
+  - Navegación mejorada
+
+- **Página de Configuración** (`/dashboard/configuracion`)
+  - Configuración de tema claro/oscuro
+  - Información de contacto centralizada
+  - Navegación a páginas de ayuda
+
+- **Dashboard Header mejorado**
+  - Título principal clickeable
+  - Navegación optimizada
+  - Diseño responsive
+
+### 🔧 Mejorado
+- **Navegación**: Optimizada para evitar recargas
+- **Modo oscuro**: Mejoras en contraste y legibilidad
+- **Contacto**: Número actualizado a +56 9 6520 8072
+
+### 🐛 Corregido
+- **Headers duplicados**: Eliminados en páginas de configuración y ayuda
+- **JSX errors**: Corregidos errores de sintaxis
+- **Navegación**: Redirecciones corregidas
+
+## [0.1.0] - 2024-12-17
+
+### ✨ Añadido
+- **Sistema de autenticación** con Supabase
+- **Dashboard principal** con navegación
+- **Páginas de perfil** y configuración básica
+- **Sistema de temas** (claro/oscuro)
+- **Componentes UI** reutilizables
+- **Estructura base** del proyecto
 
 ---
 
-## [0.1.0] - 2024-12-18
+## Notas de Implementación
 
-### 🎉 Lanzamiento Inicial
-- **Fundación del proyecto**: Estructura Next.js 14 con TypeScript
-- **Sistema de autenticación**: Supabase Auth con Google OAuth
-- **Dashboards diferenciados**: Comprador y Pesador con métricas mock
-- **Tema NaviPesca**: Colores personalizados y modo oscuro
-- **Configuración móvil**: Capacitor para apps nativas
-- **PWA ready**: Manifest y Service Worker configurados 
+### 🚧 Funcionalidades Simuladas
+Las siguientes funcionalidades están **simuladas** y necesitan implementación real:
+
+- **Notificaciones Push**: Actualmente solicita permisos del navegador pero no implementa notificaciones reales
+- **Autenticación de Dos Factores**: Interfaz completa pero sin backend real
+- **Sincronización de Datos**: Simulada con timeouts, necesita integración con APIs reales
+- **Exportación de Datos**: Simulada, necesita implementación real de exportación
+- **Gestión de Dispositivos**: Interfaz completa pero sin backend real
+- **Sesiones Activas**: Simulada, necesita integración con sistema de autenticación real
+
+### 🔄 Próximas Implementaciones
+- Integración con Firebase para notificaciones push reales
+- Sistema de autenticación de dos factores con TOTP
+- APIs reales para sincronización de datos
+- Sistema de exportación de datos en múltiples formatos
+- Backend real para gestión de dispositivos y sesiones
+- Sistema de logs y auditoría de seguridad
+
+### 📊 Métricas de Completitud
+- **Frontend**: 95% completo
+- **Backend**: 30% completo (solo autenticación básica)
+- **Funcionalidades Core**: 70% completo
+- **Documentación**: 90% completo 
