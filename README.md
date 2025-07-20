@@ -246,28 +246,55 @@ npm run build
 ## 🚀 Deployment
 
 ### Vercel (Recomendado para web)
+
+1. **Conectar repositorio**:
+   - Ve a [Vercel Dashboard](https://vercel.com/dashboard)
+   - Importa tu repositorio de GitHub
+   - Selecciona `navipesca-comerciante`
+
+2. **Configurar variables de entorno**:
+   ```bash
+   NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+   SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key
+   DATABASE_URL=your_database_url
+   NEXTAUTH_URL=https://your-domain.vercel.app
+   NEXTAUTH_SECRET=your_nextauth_secret
+   ```
+
+3. **Deploy automático**:
+   - Cada push a `main` activará deploy automático
+   - Los pull requests crean deploys de preview
+
+📖 **Ver [DEPLOYMENT.md](./DEPLOYMENT.md) para instrucciones detalladas**
+
+### Netlify (Alternativa)
 ```bash
-# Conectar repositorio en Vercel
-# Configurar variables de entorno
-# Deploy automático con Git
+# Build para producción
+npm run build
+
+# Deploy manual
+netlify deploy --prod --dir=out
 ```
-
-### Distribución móvil
-- **Android**: Google Play Store
-- **iOS**: Apple App Store
-- **Web**: PWA instalable
-
-## 📞 Soporte
-
-Para soporte técnico o reportar bugs:
-- Crear issue en GitHub
-- Email: soporte@navipesca.com
-- Documentación: [docs.navipesca.com](https://docs.navipesca.com)
 
 ## 📄 Licencia
 
-Este proyecto está bajo la licencia MIT. Ver `LICENSE` para más detalles.
+MIT License - ver [LICENSE](LICENSE) para detalles.
+
+## 🤝 Contribuir
+
+1. Fork el proyecto
+2. Crea una rama para tu feature (`git checkout -b feature/AmazingFeature`)
+3. Commit tus cambios (`git commit -m 'Add some AmazingFeature'`)
+4. Push a la rama (`git push origin feature/AmazingFeature`)
+5. Abre un Pull Request
+
+## 📞 Soporte
+
+- **Documentación**: [IMPLEMENTATION_SUMMARY.md](./IMPLEMENTATION_SUMMARY.md)
+- **Deployment**: [DEPLOYMENT.md](./DEPLOYMENT.md)
+- **Issues**: [GitHub Issues](https://github.com/tu-usuario/navipesca-comerciante/issues)
 
 ---
 
-**Desarrollado con ❤️ para la industria pesquera chilena**
+**Versión**: 0.4.0 | **Última actualización**: Diciembre 2024
