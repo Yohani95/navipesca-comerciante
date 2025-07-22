@@ -1,10 +1,5 @@
-'use client'
-
-import { useState, useEffect } from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { LoadingSpinner } from '@/components/ui/loading-spinner'
-import { useAuth } from '@/hooks/use-auth'
 import { 
   Scale,
   Ship,
@@ -19,6 +14,7 @@ import {
 } from 'lucide-react'
 import Link from 'next/link'
 import { formatCurrency, formatWeight, formatDate, getDaysUntilExpiration } from '@/lib/utils'
+import { obtenerEstadisticasComprador, obtenerPesajesRecientesComprador, obtenerEmbarcacionesActivasComprador } from '@/lib/actions/comprador-actions'
 
 interface DashboardStats {
   totalKilosHoy: number
@@ -29,54 +25,21 @@ interface DashboardStats {
   pendientesSincronizar: number
 }
 
-export default function CompradorDashboard() {
-  const { user } = useAuth()
-  const [stats, setStats] = useState<DashboardStats | null>(null)
-  const [loading, setLoading] = useState(true)
-  const [trialInfo, setTrialInfo] = useState({
+export default async function CompradorDashboard() {
+  // Cargar datos del servidor
+  const statsResult = await obtenerEstadisticasComprador()
+  const pesajesResult = await obtenerPesajesRecientesComprador(5)
+  const embarcacionesResult = await obtenerEmbarcacionesActivasComprador()
+
+  const stats = statsResult.data
+  const pesajesRecientes = pesajesResult.data || []
+  const embarcacionesActivas = embarcacionesResult.data || []
+
+  // Mock trial info (en producción vendría de la base de datos)
+  const trialInfo = {
     isExpired: false,
-    daysLeft: 0,
+    daysLeft: 25,
     subscription: 'prueba'
-  })
-
-  useEffect(() => {
-    // Simulate loading stats - replace with actual API calls
-    const loadStats = async () => {
-      try {
-        // Mock data - replace with actual API calls
-        await new Promise(resolve => setTimeout(resolve, 1000))
-        
-        setStats({
-          totalKilosHoy: 2450.5,
-          totalKilosMes: 15678.2,
-          embarcacionesActivas: 12,
-          pesajesHoy: 38,
-          montoFacturadoMes: 15678,
-          pendientesSincronizar: 5
-        })
-
-        // Mock trial info
-        setTrialInfo({
-          isExpired: false,
-          daysLeft: 25,
-          subscription: 'prueba'
-        })
-      } catch (error) {
-        console.error('Error loading dashboard stats:', error)
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    loadStats()
-  }, [])
-
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <LoadingSpinner size="lg" />
-      </div>
-    )
   }
 
   const statCards = [
@@ -224,29 +187,32 @@ export default function CompradorDashboard() {
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                {/* Mock recent activity - replace with actual data */}
-                {[
-                  { vessel: "Esperanza III", weight: "325.5 kg", time: "Hace 15 min", status: "sincronizado" },
-                  { vessel: "Mar Azul", weight: "290.2 kg", time: "Hace 1 hora", status: "pendiente" },
-                  { vessel: "Gaviota", weight: "410.8 kg", time: "Hace 2 horas", status: "sincronizado" },
-                ].map((activity, index) => (
-                  <div key={index} className="flex items-center justify-between py-2 border-b last:border-0">
-                    <div>
-                      <p className="font-medium">{activity.vessel}</p>
-                      <p className="text-sm text-muted-foreground">{activity.time}</p>
+                {pesajesRecientes.length > 0 ? (
+                  pesajesRecientes.slice(0, 3).map((pesaje: any) => (
+                    <div key={pesaje.id} className="flex items-center justify-between py-2 border-b last:border-0">
+                      <div>
+                        <p className="font-medium">{pesaje.embarcaciones?.nombre || 'Embarcación N/A'}</p>
+                        <p className="text-sm text-muted-foreground">
+                          {formatDate(pesaje.fecha)}
+                        </p>
+                      </div>
+                      <div className="text-right">
+                        <p className="font-semibold">{formatWeight(pesaje.pesoNeto || 0)}</p>
+                        <span className={`text-xs px-2 py-1 rounded-full ${
+                          pesaje.estado === 'completado' 
+                            ? 'bg-aqua-100 text-aqua-700' 
+                            : 'bg-warning-100 text-warning-700'
+                        }`}>
+                          {pesaje.estado === 'completado' ? 'Completado' : 'Pendiente'}
+                        </span>
+                      </div>
                     </div>
-                    <div className="text-right">
-                      <p className="font-semibold">{activity.weight}</p>
-                      <span className={`text-xs px-2 py-1 rounded-full ${
-                        activity.status === 'sincronizado' 
-                          ? 'bg-aqua-100 text-aqua-700' 
-                          : 'bg-warning-100 text-warning-700'
-                      }`}>
-                        {activity.status}
-                      </span>
-                    </div>
+                  ))
+                ) : (
+                  <div className="text-center py-4 text-muted-foreground">
+                    <p>No hay pesajes recientes</p>
                   </div>
-                ))}
+                )}
               </div>
               <Button variant="outline" className="w-full mt-4" asChild>
                 <Link href="/dashboard/comprador/pesajes">

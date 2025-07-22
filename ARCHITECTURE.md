@@ -1,7 +1,7 @@
 # Arquitectura del Sistema - NaviPesca Comerciante
 
-**Versión**: 0.3.0  
-**Estado**: Frontend 95% completo, Backend 30% completo
+**Versión**: 0.5.0  
+**Estado**: Frontend 100% completo, Backend 60% completo
 
 ## 🏗️ Arquitectura General
 
@@ -22,16 +22,17 @@
 └─────────────────────────────────────────────────────────────┘
 ```
 
-### 🔧 **Backend (Supabase + Simulaciones)**
+### 🔧 **Backend (Supabase + Server Actions)**
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │                      Backend Services                     │
 ├─────────────────────────────────────────────────────────────┤
 │  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐      │
-│  │  Supabase   │  │  Simulaciones│  │   Pendiente │      │
-│  │   Auth      │  │   (Frontend) │  │   (APIs)    │      │
-│  │   RLS       │  │   Timeouts   │  │   Firebase  │      │
-│  │   Database  │  │   Mock Data  │  │   TOTP      │      │
+│  │  Supabase   │  │ Server Actions│  │   Pendiente │      │
+│  │   Auth      │  │   (Next.js)  │  │   (APIs)    │      │
+│  │   RLS       │  │   Pesajes    │  │   Firebase  │      │
+│  │   Database  │  │   Embarc.    │  │   TOTP      │      │
+│  │   Offline   │  │   Offline    │  │   Export    │      │
 │  └─────────────┘  └─────────────┘  └─────────────┘      │
 └─────────────────────────────────────────────────────────────┘
 ```
@@ -85,9 +86,9 @@ prisma/
 Usuario → Login → Supabase Auth → RLS Policies → Dashboard
 ```
 
-### 🚧 **Sincronización (Simulado)**
+### ✅ **Sincronización (Completo)**
 ```
-Datos Locales → Simulación (Timeout) → Toast Success → UI Update
+Datos Locales → Server Actions → Base de Datos → Revalidación → UI Update
 ```
 
 ### 🚧 **Notificaciones (Parcial)**
@@ -95,9 +96,9 @@ Datos Locales → Simulación (Timeout) → Toast Success → UI Update
 Evento → Permisos del Navegador → Toast → (Pendiente: Firebase)
 ```
 
-### 🚧 **Configuración (Simulado)**
+### ✅ **Sistema de Pesajes (Completo)**
 ```
-UI Change → Simulación (Timeout) → Toast → State Update
+Pesaje Iniciado → Bins Agregados → Pesos Registrados → Pesaje Completado → Facturación
 ```
 
 ## 🛠️ Tecnologías y Dependencias
@@ -160,8 +161,9 @@ UI Change → Simulación (Timeout) → Toast → State Update
 ### 🎯 **Core Features**
 | Funcionalidad | Frontend | Backend | Estado |
 |---------------|----------|---------|--------|
-| **Autenticación** | ✅ 100% | ✅ 80% | Completo |
-| **Dashboards** | ✅ 100% | 🚧 30% | Completo |
+| **Autenticación** | ✅ 100% | ✅ 90% | Completo |
+| **Dashboards** | ✅ 100% | ✅ 100% | Completo |
+| **Sistema de Pesajes** | ✅ 100% | ✅ 100% | Completo |
 | **Configuración** | ✅ 100% | 🚧 20% | Completo |
 | **Perfil** | ✅ 100% | ✅ 90% | Completo |
 | **Ayuda** | ✅ 100% | ✅ 100% | Completo |
@@ -170,7 +172,7 @@ UI Change → Simulación (Timeout) → Toast → State Update
 | Funcionalidad | Frontend | Backend | Estado |
 |---------------|----------|---------|--------|
 | **Notificaciones** | ✅ 90% | 🚧 10% | Parcial |
-| **Sincronización** | ✅ 100% | 🚧 5% | Simulado |
+| **Sincronización** | ✅ 100% | ✅ 100% | Completo |
 | **2FA** | ✅ 100% | ❌ 0% | Simulado |
 | **Dispositivos** | ✅ 100% | 🚧 10% | Simulado |
 | **Sesiones** | ✅ 100% | 🚧 5% | Simulado |

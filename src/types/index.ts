@@ -210,3 +210,40 @@ export interface ReportFilters {
   incluirPagos?: boolean
   formato: 'pdf' | 'csv'
 }
+
+// Tipos para el flujo real de pesaje
+export interface PesajeEnProceso {
+  id: string
+  embarcacionId: string
+  embarcacionNombre: string
+  estado: 'tara' | 'pesaje' | 'completado'
+  bins: BinPesaje[]
+  fechaInicio: string
+  fechaCierre?: string
+  observaciones?: string
+}
+
+export interface BinPesaje {
+  id: string
+  codigo: string
+  tara: number
+  pesoBruto?: number
+  pesoNeto?: number
+  estado: 'pendiente' | 'tara_completada' | 'pesaje_completado'
+  observaciones?: string
+}
+
+export interface EmbarcacionPesaje {
+  id: string
+  nombre: string
+  matricula: string
+  propietario: string
+  pesajeEnProceso?: PesajeEnProceso
+}
+
+export interface PesajeStats {
+  embarcacionesActivas: number
+  binsPendientes: number
+  kilosHoy: number
+  ultimoPesaje: string | null
+}
