@@ -47,7 +47,7 @@ export async function obtenerEstadisticasComprador() {
       .from('embarcaciones')
       .select('id')
       .eq('clienteId', usuarioData.clienteId)
-      .eq('activo', true)
+      .eq('activa', true)
 
     // 4. Pesajes hoy
     const { data: pesajesHoyData, error: pesajesHoyError } = await supabase
@@ -164,7 +164,7 @@ export async function obtenerEmbarcacionesActivasComprador() {
       .from('embarcaciones')
       .select('*')
       .eq('clienteId', usuarioData.clienteId)
-      .eq('activo', true)
+      .eq('activa', true)
       .order('nombre', { ascending: true })
 
     if (error) {
